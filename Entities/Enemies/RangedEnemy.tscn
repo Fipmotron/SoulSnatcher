@@ -1,0 +1,285 @@
+[gd_scene load_steps=36 format=3 uid="uid://d1m1qgptuvk7d"]
+
+[ext_resource type="Script" uid="uid://mvipfat6amyt" path="res://Scripts/Entities/Enemy.gd" id="1_sfccu"]
+[ext_resource type="Script" uid="uid://cursvx3yi1hjq" path="res://Scripts/Global/StateMachine.gd" id="2_lit8w"]
+[ext_resource type="Script" uid="uid://baj7kl3v2plj2" path="res://Scripts/Entities/States/RuntowardsState.gd" id="3_4g2bl"]
+[ext_resource type="Script" uid="uid://3llino1aquqg" path="res://Scripts/Entities/States/Inactive.gd" id="3_lit8w"]
+[ext_resource type="Script" uid="uid://bx5bt0g81lt0a" path="res://Scripts/Entities/States/GoldilocksState.gd" id="4_bnnoe"]
+[ext_resource type="Script" uid="uid://ccmugaal44es0" path="res://Scripts/Entities/States/RunawayState.gd" id="5_6spfi"]
+[ext_resource type="PackedScene" uid="uid://mxphegorj4ds" path="res://Entities/Components/GunComponent.tscn" id="6_mgby8"]
+[ext_resource type="PackedScene" uid="uid://bgrtmvwthxlpu" path="res://Entities/Objects/BasicEnemyProjectile.tscn" id="7_auu8m"]
+[ext_resource type="PackedScene" uid="uid://bpxfi2chgbnon" path="res://Entities/Enemies/EnemySoul.tscn" id="8_x4d2y"]
+[ext_resource type="PackedScene" uid="uid://diahvu75ghsaa" path="res://Entities/Components/HealthComponent.tscn" id="9_vyvxn"]
+[ext_resource type="Texture2D" uid="uid://5ngtsq2g6xe3" path="res://Art/Entites/GodotWildJamShadow.png" id="11_bnnoe"]
+[ext_resource type="Texture2D" uid="uid://beergwq4epay6" path="res://Art/Entites/GodotWildJamGunEnemy-Sheet.png" id="12_6spfi"]
+[ext_resource type="AudioStream" uid="uid://cle2nyse6m1xi" path="res://Audio/Entities/hitSFX.wav" id="13_6spfi"]
+[ext_resource type="Texture2D" uid="uid://paie55m2ixj" path="res://Art/Objects/GodotWildJamPistol.png" id="14_mgby8"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7gxl3"]
+radius = 13.0384
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ighyy"]
+radius = 16.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_lit8w"]
+radius = 256.0
+
+[sub_resource type="Animation" id="Animation_7gxl3"]
+resource_name = "Death"
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [23, 24, 25, 26]
+}
+
+[sub_resource type="Animation" id="Animation_mgby8"]
+resource_name = "Inactive"
+loop_mode = 1
+step = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5, 0.75),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+
+[sub_resource type="Animation" id="Animation_auu8m"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [4]
+}
+
+[sub_resource type="Animation" id="Animation_vyvxn"]
+resource_name = "Shoot"
+length = 0.1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [20]
+}
+
+[sub_resource type="Animation" id="Animation_x4d2y"]
+resource_name = "Walk"
+length = 0.8
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [6, 7, 8, 9, 10, 11, 12, 13]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ighyy"]
+_data = {
+&"Death": SubResource("Animation_7gxl3"),
+&"Inactive": SubResource("Animation_mgby8"),
+&"RESET": SubResource("Animation_auu8m"),
+&"Shoot": SubResource("Animation_vyvxn"),
+&"Walk": SubResource("Animation_x4d2y")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_bnnoe"]
+animation = &"Death"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_6spfi"]
+animation = &"Inactive"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_mgby8"]
+animation = &"Shoot"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_auu8m"]
+animation = &"Walk"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_x4d2y"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_vyvxn"]
+advance_mode = 2
+advance_condition = &"active"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_7gxl3"]
+advance_mode = 2
+advance_condition = &"active"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ighyy"]
+advance_mode = 2
+advance_condition = &"death"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_2yu6u"]
+advance_mode = 2
+advance_condition = &"death"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_sk6h3"]
+advance_mode = 2
+advance_condition = &"walk"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_o76ys"]
+advance_mode = 2
+advance_condition = &"shoot"
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_3kx5u"]
+states/Death/node = SubResource("AnimationNodeAnimation_bnnoe")
+states/Death/position = Vector2(745, 100)
+states/Inactive/node = SubResource("AnimationNodeAnimation_6spfi")
+states/Inactive/position = Vector2(344, 100)
+states/Shoot/node = SubResource("AnimationNodeAnimation_mgby8")
+states/Shoot/position = Vector2(546, 34)
+states/Walk/node = SubResource("AnimationNodeAnimation_auu8m")
+states/Walk/position = Vector2(546, 171)
+transitions = ["Start", "Inactive", SubResource("AnimationNodeStateMachineTransition_x4d2y"), "Inactive", "Shoot", SubResource("AnimationNodeStateMachineTransition_vyvxn"), "Inactive", "Walk", SubResource("AnimationNodeStateMachineTransition_7gxl3"), "Walk", "Death", SubResource("AnimationNodeStateMachineTransition_ighyy"), "Shoot", "Death", SubResource("AnimationNodeStateMachineTransition_2yu6u"), "Shoot", "Walk", SubResource("AnimationNodeStateMachineTransition_sk6h3"), "Walk", "Shoot", SubResource("AnimationNodeStateMachineTransition_o76ys")]
+
+[node name="RangedEnemy" type="CharacterBody2D"]
+y_sort_enabled = true
+collision_layer = 0
+script = ExtResource("1_sfccu")
+hasGun = true
+gunDistance = 30.0
+chargeUpTime = 0.75
+chaseSpeed = 400.0
+runAwaySpeed = 400.0
+runAwayRadius = 100.0
+runTowardsRadius = 200.0
+stopMin = 140.0
+stopMax = 160.0
+checkRadius = 400.0
+rangeAnimation = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_7gxl3")
+
+[node name="Statemachine" type="Node" parent="."]
+script = ExtResource("2_lit8w")
+
+[node name="Inactive" type="Node" parent="Statemachine"]
+script = ExtResource("3_lit8w")
+
+[node name="Runtowards" type="Node" parent="Statemachine"]
+script = ExtResource("3_4g2bl")
+
+[node name="Goldilocks" type="Node" parent="Statemachine"]
+script = ExtResource("4_bnnoe")
+
+[node name="Runaway" type="Node" parent="Statemachine"]
+script = ExtResource("5_6spfi")
+
+[node name="GunHolder" type="Node2D" parent="."]
+
+[node name="ShootPosition" type="Marker2D" parent="GunHolder"]
+position = Vector2(8, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="GunHolder"]
+
+[node name="Gun" parent="." node_paths=PackedStringArray("gunSprite") instance=ExtResource("6_mgby8")]
+gunSprite = NodePath("../GodotWildJamPistol")
+bullet = ExtResource("7_auu8m")
+bulletAmount = 1
+launchSpeed = 1100.0
+shootCooldown = 0.15
+spread = 10.0
+ammoCapacity = 6
+reloadTime = 0.6
+launchPosition = Vector2(8, 0)
+
+[node name="EnemySoul" parent="." instance=ExtResource("8_x4d2y")]
+visible = false
+
+[node name="LineOfSight" type="RayCast2D" parent="."]
+target_position = Vector2(1, 1)
+collision_mask = 64
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="CollisionMask" type="RayCast2D" parent="."]
+target_position = Vector2(1, 1)
+
+[node name="HealthComponent" parent="." node_paths=PackedStringArray("parent") instance=ExtResource("9_vyvxn")]
+collision_mask = 4
+parent = NodePath("..")
+maxHealth = 5.0
+
+[node name="CollisionShape2D" parent="HealthComponent" index="0"]
+shape = SubResource("CircleShape2D_ighyy")
+
+[node name="PlayerDetection" type="Area2D" parent="."]
+visible = false
+collision_layer = 0
+collision_mask = 64
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetection"]
+shape = SubResource("CircleShape2D_lit8w")
+
+[node name="GodotWildJamShadow" type="Sprite2D" parent="."]
+position = Vector2(0, 16)
+texture = ExtResource("11_bnnoe")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, 16)
+texture = ExtResource("12_6spfi")
+offset = Vector2(0, -24)
+hframes = 27
+frame = 4
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_ighyy")
+}
+
+[node name="AnimationTree" type="AnimationTree" parent="AnimationPlayer"]
+root_node = NodePath("../..")
+tree_root = SubResource("AnimationNodeStateMachine_3kx5u")
+anim_player = NodePath("..")
+parameters/conditions/active = false
+parameters/conditions/death = false
+parameters/conditions/shoot = false
+parameters/conditions/walk = false
+
+[node name="EnemyHit" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("13_6spfi")
+bus = &"SFX"
+
+[node name="GodotWildJamPistol" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("14_mgby8")
+
+[connection signal="area_entered" from="PlayerDetection" to="." method="_onPlayerDetect"]
+[connection signal="area_exited" from="PlayerDetection" to="." method="_noPlayerDetect"]
+
+[editable path="HealthComponent"]

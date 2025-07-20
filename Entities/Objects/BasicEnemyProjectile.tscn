@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=3 uid="uid://bgrtmvwthxlpu"]
+
+[ext_resource type="Script" uid="uid://boa085t7c3xq5" path="res://Scripts/Objects/Projectile.gd" id="1_1p7o0"]
+[ext_resource type="PackedScene" uid="uid://byyqihwdepb4h" path="res://Entities/Components/HitboxComponent.tscn" id="2_ind1t"]
+[ext_resource type="Texture2D" uid="uid://kiywm4ytxkay" path="res://Art/Entites/GodotWildJamEnemyBullet.png" id="3_ind1t"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_sgfum"]
+radius = 2.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_yq02a"]
+radius = 3.0
+
+[node name="BasicEnemyProjectile" type="CharacterBody2D"]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("1_1p7o0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_sgfum")
+
+[node name="HitboxComponent" parent="." instance=ExtResource("2_ind1t")]
+collision_layer = 2
+collision_mask = 3
+damage = 1.0
+deleteOnHit = true
+
+[node name="CollisionShape2D" parent="HitboxComponent" index="0"]
+shape = SubResource("CircleShape2D_yq02a")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("3_ind1t")
+
+[editable path="HitboxComponent"]

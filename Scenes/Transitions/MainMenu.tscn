@@ -1,0 +1,221 @@
+[gd_scene load_steps=6 format=3 uid="uid://3nuhtpourgwg"]
+
+[ext_resource type="Script" uid="uid://diy6cjfjg4728" path="res://Scripts/UI/MainMenu.gd" id="1_3w8s1"]
+[ext_resource type="Texture2D" uid="uid://d0yjuqli81kqo" path="res://Art/GodotWildJamTitlescreen.png" id="2_gshkf"]
+[ext_resource type="AudioStream" uid="uid://bufr7ceadf7hg" path="res://Music/remaxim-safe room theme.ogg" id="3_68dou"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_gshkf"]
+font_size = 64
+
+[sub_resource type="LabelSettings" id="LabelSettings_68dou"]
+font_size = 12
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_3w8s1")
+
+[node name="GodotWildJamTitlescreen" type="Sprite2D" parent="."]
+position = Vector2(320, 180)
+texture = ExtResource("2_gshkf")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 0
+offset_right = 640.0
+offset_bottom = 360.0
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -64.0
+offset_right = 70.0
+offset_bottom = 88.0
+grow_horizontal = 2
+text = "Soul Snatcher"
+label_settings = SubResource("LabelSettings_gshkf")
+
+[node name="Main" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Play" type="Button" parent="Main"]
+layout_mode = 0
+offset_left = -108.0
+offset_top = -32.0
+offset_right = 148.0
+text = "Start"
+
+[node name="Options" type="Button" parent="Main"]
+layout_mode = 0
+offset_left = -108.0
+offset_top = 32.0
+offset_right = 148.0
+offset_bottom = 64.0
+text = "Options"
+
+[node name="Quit" type="Button" parent="Main"]
+layout_mode = 0
+offset_left = -108.0
+offset_top = 96.0
+offset_right = 148.0
+offset_bottom = 128.0
+text = "Quit"
+
+[node name="Label" type="Label" parent="Main"]
+layout_mode = 0
+offset_left = 180.0
+offset_top = 176.0
+offset_right = 382.0
+offset_bottom = 199.0
+text = "Game made by Fipmotron"
+label_settings = SubResource("LabelSettings_68dou")
+
+[node name="Label2" type="Label" parent="Main"]
+layout_mode = 0
+offset_left = -292.0
+offset_top = 160.0
+offset_right = -90.0
+offset_bottom = 197.0
+text = "Music by fato_shadow and
+remaxim from opengameart.org"
+label_settings = SubResource("LabelSettings_68dou")
+
+[node name="Level Select" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Tutorial" type="Button" parent="Level Select"]
+layout_mode = 0
+offset_left = -172.0
+offset_top = 23.0
+offset_right = -44.0
+offset_bottom = 55.0
+text = "Tutorial"
+
+[node name="LevelTwo" type="Button" parent="Level Select"]
+layout_mode = 0
+offset_left = 84.0
+offset_top = 23.0
+offset_right = 212.0
+offset_bottom = 55.0
+text = "Level One"
+
+[node name="Back" type="Button" parent="Level Select"]
+layout_mode = 0
+offset_left = -44.0
+offset_top = 144.0
+offset_right = 84.0
+offset_bottom = 176.0
+text = "Back"
+
+[node name="Options" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Back" type="Button" parent="Options"]
+layout_mode = 0
+offset_left = 256.0
+offset_top = 304.0
+offset_right = 384.0
+offset_bottom = 336.0
+text = "Back"
+
+[node name="Master" type="HSlider" parent="Options"]
+layout_mode = 0
+offset_left = 128.0
+offset_top = 128.0
+offset_right = 512.0
+offset_bottom = 144.0
+max_value = 1.0
+step = 0.01
+value = 0.5
+
+[node name="Label" type="Label" parent="Options/Master"]
+layout_mode = 0
+offset_left = 168.0
+offset_top = -32.0
+offset_right = 223.0
+offset_bottom = -9.0
+text = "Master"
+
+[node name="Music" type="HSlider" parent="Options"]
+layout_mode = 0
+offset_left = 128.0
+offset_top = 192.0
+offset_right = 512.0
+offset_bottom = 208.0
+max_value = 1.0
+step = 0.01
+value = 0.5
+
+[node name="Label" type="Label" parent="Options/Music"]
+layout_mode = 0
+offset_left = 168.0
+offset_top = -32.0
+offset_right = 223.0
+offset_bottom = -9.0
+text = "Music"
+
+[node name="SFX" type="HSlider" parent="Options"]
+layout_mode = 0
+offset_left = 128.0
+offset_top = 256.0
+offset_right = 512.0
+offset_bottom = 272.0
+max_value = 1.0
+step = 0.01
+value = 0.5
+
+[node name="Label" type="Label" parent="Options/SFX"]
+layout_mode = 0
+offset_left = 178.0
+offset_top = -24.0
+offset_right = 206.0
+offset_bottom = -1.0
+text = "SFX"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_68dou")
+autoplay = true
+bus = &"Music"
+
+[connection signal="pressed" from="Main/Play" to="." method="_onPlay"]
+[connection signal="pressed" from="Main/Options" to="." method="_onOptions"]
+[connection signal="pressed" from="Main/Quit" to="." method="_onQuit"]
+[connection signal="pressed" from="Level Select/Tutorial" to="." method="_onTutorial"]
+[connection signal="pressed" from="Level Select/LevelTwo" to="." method="_onLevelTwo"]
+[connection signal="pressed" from="Level Select/Back" to="." method="_onBack"]
+[connection signal="pressed" from="Options/Back" to="." method="_onBack"]
+[connection signal="value_changed" from="Options/Master" to="." method="_on_master_value_changed"]
+[connection signal="value_changed" from="Options/Music" to="." method="_on_music_value_changed"]
+[connection signal="value_changed" from="Options/SFX" to="." method="_on_sfx_value_changed"]

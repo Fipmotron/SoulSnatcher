@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://bufr7ceadf7hg"
+path="res://.godot/imported/remaxim-safe room theme.ogg-64e6bffb197f833714505ce1526286e8.oggvorbisstr"
+
+[deps]
+
+source_file="res://Music/remaxim-safe room theme.ogg"
+dest_files=["res://.godot/imported/remaxim-safe room theme.ogg-64e6bffb197f833714505ce1526286e8.oggvorbisstr"]
+
+[params]
+
+loop=true
+loop_offset=0.0
+bpm=0.0
+beat_count=0
+bar_beats=4

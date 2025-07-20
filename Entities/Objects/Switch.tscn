@@ -1,0 +1,73 @@
+[gd_scene load_steps=6 format=3 uid="uid://cy5yol1r86nw7"]
+
+[ext_resource type="Script" uid="uid://t0l40etaapa3" path="res://Scripts/Objects/Switch.gd" id="1_lfvhs"]
+
+[sub_resource type="Animation" id="Animation_lfvhs"]
+resource_name = "Off"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_1wkdu"]
+resource_name = "On"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+
+[sub_resource type="Animation" id="Animation_q0y8g"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vekl0"]
+_data = {
+&"Off": SubResource("Animation_lfvhs"),
+&"On": SubResource("Animation_1wkdu"),
+&"RESET": SubResource("Animation_q0y8g")
+}
+
+[node name="Switch" type="Area2D"]
+collision_layer = 0
+collision_mask = 64
+script = ExtResource("1_lfvhs")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_vekl0")
+}
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+hframes = 2
+
+[connection signal="area_entered" from="." to="." method="_onEnter"]
+[connection signal="area_exited" from="." to="." method="_onExit"]

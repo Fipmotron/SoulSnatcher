@@ -1,0 +1,360 @@
+[gd_scene load_steps=41 format=3 uid="uid://slfygenmfkid"]
+
+[ext_resource type="Script" uid="uid://mvipfat6amyt" path="res://Scripts/Entities/Enemy.gd" id="1_i043c"]
+[ext_resource type="Script" uid="uid://cursvx3yi1hjq" path="res://Scripts/Global/StateMachine.gd" id="2_g5ia5"]
+[ext_resource type="Script" uid="uid://dyti8fy7u301u" path="res://Scripts/Entities/States/WanderState.gd" id="3_nopmt"]
+[ext_resource type="Script" uid="uid://i2uhtvpgst3i" path="res://Scripts/Entities/States/ChaseState.gd" id="4_el6un"]
+[ext_resource type="Script" uid="uid://dmhxg28kfludj" path="res://Scripts/Entities/States/AttackState.gd" id="5_pmit6"]
+[ext_resource type="PackedScene" uid="uid://diahvu75ghsaa" path="res://Entities/Components/HealthComponent.tscn" id="7_pcvxo"]
+[ext_resource type="PackedScene" uid="uid://byyqihwdepb4h" path="res://Entities/Components/HitboxComponent.tscn" id="8_6xbjo"]
+[ext_resource type="PackedScene" uid="uid://bpxfi2chgbnon" path="res://Entities/Enemies/EnemySoul.tscn" id="8_i043c"]
+[ext_resource type="Texture2D" uid="uid://5ngtsq2g6xe3" path="res://Art/Entites/GodotWildJamShadow.png" id="9_nopmt"]
+[ext_resource type="Texture2D" uid="uid://bg18nansjjqsc" path="res://Art/Entites/GodotWildJamChaseEnemy-Sheet.png" id="10_el6un"]
+[ext_resource type="AudioStream" uid="uid://cle2nyse6m1xi" path="res://Audio/Entities/hitSFX.wav" id="11_el6un"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_nopmt"]
+height = 32.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8tw0l"]
+radius = 192.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_el6un"]
+height = 32.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_i043c"]
+radius = 11.0454
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_pmit6"]
+radius = 11.0
+height = 34.0
+
+[sub_resource type="Animation" id="Animation_8tw0l"]
+resource_name = "Attack"
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [21]
+}
+
+[sub_resource type="Animation" id="Animation_xfeom"]
+resource_name = "Attackanticipation"
+length = 0.25
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [20]
+}
+
+[sub_resource type="Animation" id="Animation_1jdbu"]
+resource_name = "Death"
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("GodotWildJamShadow:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [23, 24, 25, 26]
+}
+
+[sub_resource type="Animation" id="Animation_7n0ln"]
+resource_name = "Idle"
+loop_mode = 1
+step = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [4, 5]
+}
+
+[sub_resource type="Animation" id="Animation_pmit6"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("GodotWildJamShadow:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [4]
+}
+
+[sub_resource type="Animation" id="Animation_6xbjo"]
+resource_name = "Run"
+length = 0.6
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [14, 15, 16, 17, 18, 19]
+}
+
+[sub_resource type="Animation" id="Animation_pcvxo"]
+resource_name = "Walk"
+length = 0.8
+loop_mode = 1
+step = 0.1
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_t2j16"]
+_data = {
+&"Attack": SubResource("Animation_8tw0l"),
+&"Attackanticipation": SubResource("Animation_xfeom"),
+&"Death": SubResource("Animation_1jdbu"),
+&"Idle": SubResource("Animation_7n0ln"),
+&"RESET": SubResource("Animation_pmit6"),
+&"Run": SubResource("Animation_6xbjo"),
+&"Walk": SubResource("Animation_pcvxo")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_gpi88"]
+animation = &"Attack"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_dpquu"]
+animation = &"Attackanticipation"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_5icpw"]
+animation = &"Death"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_0bogy"]
+animation = &"Idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_cqdaw"]
+animation = &"Run"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_iped7"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_re3bi"]
+advance_mode = 2
+advance_condition = &"run"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_hprd0"]
+advance_mode = 2
+advance_condition = &"idle"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_35pxm"]
+advance_mode = 2
+advance_condition = &"attack"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_27hul"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_int05"]
+advance_mode = 2
+advance_condition = &"noAttack"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_rxd66"]
+advance_mode = 2
+advance_condition = &"death"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_q10y5"]
+advance_mode = 2
+advance_condition = &"death"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_okolc"]
+advance_mode = 2
+advance_condition = &"death"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_tidfi"]
+advance_mode = 2
+advance_condition = &"death"
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_o203y"]
+states/Attack/node = SubResource("AnimationNodeAnimation_gpi88")
+states/Attack/position = Vector2(758, 224)
+states/Attackanticipation/node = SubResource("AnimationNodeAnimation_dpquu")
+states/Attackanticipation/position = Vector2(522, 224)
+states/Death/node = SubResource("AnimationNodeAnimation_5icpw")
+states/Death/position = Vector2(1019, 88)
+states/End/position = Vector2(1019, 236)
+states/Idle/node = SubResource("AnimationNodeAnimation_0bogy")
+states/Idle/position = Vector2(298, 100)
+states/Run/node = SubResource("AnimationNodeAnimation_cqdaw")
+states/Run/position = Vector2(522, 100)
+transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_iped7"), "Idle", "Run", SubResource("AnimationNodeStateMachineTransition_re3bi"), "Run", "Idle", SubResource("AnimationNodeStateMachineTransition_hprd0"), "Run", "Attackanticipation", SubResource("AnimationNodeStateMachineTransition_35pxm"), "Attackanticipation", "Attack", SubResource("AnimationNodeStateMachineTransition_27hul"), "Attack", "Run", SubResource("AnimationNodeStateMachineTransition_int05"), "Run", "Death", SubResource("AnimationNodeStateMachineTransition_rxd66"), "Attack", "Death", SubResource("AnimationNodeStateMachineTransition_q10y5"), "Attackanticipation", "Death", SubResource("AnimationNodeStateMachineTransition_okolc"), "Idle", "Death", SubResource("AnimationNodeStateMachineTransition_tidfi")]
+graph_offset = Vector2(0, 35.9012)
+
+[node name="ChaseEnemy" type="CharacterBody2D"]
+y_sort_enabled = true
+collision_layer = 0
+script = ExtResource("1_i043c")
+chargeUpTime = 0.25
+chaseSpeed = 250.0
+attackSpeed = 500.0
+attackRadius = 50.0
+attackTime = 0.2
+checkRadius = 400.0
+breakLineOfSight = true
+chaseAnimation = true
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("2_g5ia5")
+
+[node name="Wander" type="Node" parent="StateMachine"]
+script = ExtResource("3_nopmt")
+
+[node name="Chase" type="Node" parent="StateMachine"]
+script = ExtResource("4_el6un")
+
+[node name="Attack" type="Node" parent="StateMachine"]
+script = ExtResource("5_pmit6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 1)
+shape = SubResource("CapsuleShape2D_nopmt")
+
+[node name="PlayerDetection" type="Area2D" parent="."]
+visible = false
+collision_layer = 0
+collision_mask = 64
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetection"]
+shape = SubResource("CircleShape2D_8tw0l")
+
+[node name="HealthComponent" parent="." node_paths=PackedStringArray("parent") instance=ExtResource("7_pcvxo")]
+collision_mask = 4
+parent = NodePath("..")
+maxHealth = 3.0
+
+[node name="CollisionShape2D" parent="HealthComponent" index="0"]
+position = Vector2(0, 1)
+shape = SubResource("CapsuleShape2D_el6un")
+
+[node name="HitboxComponent" parent="." instance=ExtResource("8_6xbjo")]
+collision_layer = 2
+damage = 4.0
+
+[node name="CollisionShape2D" parent="HitboxComponent" index="0"]
+position = Vector2(9, -5)
+shape = SubResource("CircleShape2D_i043c")
+disabled = true
+
+[node name="HitboxComponent2" parent="." instance=ExtResource("8_6xbjo")]
+collision_layer = 2
+damage = 1.0
+
+[node name="CollisionShape2D" parent="HitboxComponent2" index="0"]
+position = Vector2(0, 1)
+shape = SubResource("CapsuleShape2D_pmit6")
+disabled = true
+
+[node name="LineOfSight" type="RayCast2D" parent="."]
+target_position = Vector2(1, 1)
+collision_mask = 64
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="CollisionMask" type="RayCast2D" parent="."]
+target_position = Vector2(1, 1)
+
+[node name="GunHolder" type="Node2D" parent="."]
+visible = false
+
+[node name="Polygon2D" type="Polygon2D" parent="GunHolder"]
+color = Color(0.339735, 6.22692e-07, 1.08294e-07, 1)
+polygon = PackedVector2Array(0, -8, -8, 0, 0, 8, 8, 0)
+
+[node name="ShootPosition" type="Marker2D" parent="GunHolder"]
+
+[node name="EnemySoul" parent="." instance=ExtResource("8_i043c")]
+visible = false
+
+[node name="GodotWildJamShadow" type="Sprite2D" parent="."]
+position = Vector2(0, 16)
+texture = ExtResource("9_nopmt")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, 16)
+texture = ExtResource("10_el6un")
+offset = Vector2(0, -24)
+hframes = 27
+frame = 4
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_t2j16")
+}
+
+[node name="AnimationTree" type="AnimationTree" parent="AnimationPlayer"]
+root_node = NodePath("../..")
+tree_root = SubResource("AnimationNodeStateMachine_o203y")
+anim_player = NodePath("..")
+parameters/conditions/attack = false
+parameters/conditions/death = false
+parameters/conditions/idle = false
+parameters/conditions/noAttack = false
+parameters/conditions/run = false
+
+[node name="EnemyHit" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("11_el6un")
+bus = &"SFX"
+
+[connection signal="area_entered" from="PlayerDetection" to="." method="_onPlayerDetect"]
+[connection signal="area_exited" from="PlayerDetection" to="." method="_noPlayerDetect"]
+
+[editable path="HealthComponent"]
+[editable path="HitboxComponent"]
+[editable path="HitboxComponent2"]
